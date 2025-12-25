@@ -185,6 +185,13 @@ html, body {
     transform: translateX(6px);
 }
 
+button:disabled {
+    opacity: 0.4;              /* Fica mais transparente */
+    cursor: not-allowed;       /* O cursor muda para "proibido" */
+    pointer-events: none;      /* Impede cliques */
+    filter: grayscale(100%);   /* (Opcional) Fica a preto e branco */
+}
+
 /* ===== RESPONSIVO ===== */
 @media (max-width: 768px) {
     .interface-handler {
