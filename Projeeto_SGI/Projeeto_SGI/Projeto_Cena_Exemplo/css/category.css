@@ -1,0 +1,202 @@
+body {
+    box-sizing: border-box;
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Container for the entire page content */
+.page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 40px;
+}
+
+/* Flex container for product details */
+.product-details {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    max-width: 1200px;
+    width: 100%;
+}
+
+/* Left area for the product image */
+.category-left-area {
+    flex: 1;
+    display: flex;
+    justify-content: right;
+    max-width: 50%;
+    position: relative;
+}
+
+/* Button to navigate in 3D */
+.navigate-3d-button {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    width: 60px;
+    height: 60px;
+    background: #FFFFFF;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for the 3D navigation button */
+.navigate-3d-button:hover {
+    background-color: #f2f4f7;
+}
+
+
+
+/* Styling for the product name */
+.category-name {
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 34px;
+    display: flex;
+    align-items: center;
+    color: #000000;
+    margin-bottom: 20px;
+}
+
+/* Styling for the product price */
+.product-price {
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 39px;
+    display: flex;
+    align-items: center;
+    color: #000000;
+    margin-bottom: 60px;
+    text-align: center;
+}
+
+/* Container for add to cart elements */
+.add-cart {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+/* Container for quantity buttons */
+.amount-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: #D9D9D9;
+    border-radius: 84px;
+    width: 131px;
+    height: 48px;
+    margin-right: 20px;
+}
+
+/* Styling for decrease and increase buttons */
+.decrease-button,
+.increase-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 48px;
+    height: 48px;
+    background: #D9D9D9;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* Hover effect for buttons */
+.decrease-button:hover,
+.increase-button:hover,
+.navigate-3d-button:hover {
+    background-color: #d0d0d0;
+    transition: background-color 0.3s ease;
+}
+
+/* Active effect for buttons */
+.decrease-button:active,
+.increase-button:active,
+.navigate-3d-button:active {
+    background-color: #9f9f9f;
+    transition: background-color 0.3s ease;
+}
+
+/* Styling for icons inside buttons */
+.remove-icon,
+.add-icon {
+    width: 40px;
+    height: 40px;
+}
+
+/* Styling for quantity display */
+.quantity {
+    font-weight: 500;
+    font-size: 20px;
+    color: #000000;
+    text-align: center;
+    flex: 1;
+}
+
+/* Styling for add to cart button */
+.add-cart-button {
+    display: flex;
+    align-items: center;
+    padding: 15px 100px;
+    gap: 10px;
+    background: #000000;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Styling for cart icon */
+.cart-svg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+}
+
+/* Styling for add to cart button text */
+.add-to-cart-text {
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 18px;
+    text-transform: uppercase;
+    color: #FFFFFF;
+}
+
+.no-underline {
+    text-decoration: none;
+}
+
+.heart{
+    width: 35px;
+    height: 35px;
+}
+
+.color-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    margin-right: 10px;
+    display: inline-block;
+    border: 1px solid rgba(0,0,0,0.15);
+    flex-shrink: 0;
+}
+
+.dropdown-item {
+    cursor: pointer;
+}
+
+.dropdown-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}

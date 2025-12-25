@@ -1,0 +1,13 @@
+.montserrat-regular {
+    font-family: "Montserrat", serif;
+    font-optical-sizing: auto;
+    font-weight: 100;
+    font-style: normal;
+}
+
+.montserrat-semibold {
+    font-family: "Montserrat", serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+}

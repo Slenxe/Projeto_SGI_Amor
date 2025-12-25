@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projeto SGI</title>
+    <link rel="icon" type="image/png" href="./files/La-redoute-brand-logo.png">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/interface.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+</head>
+
+<body>
+    <!-- Canvas 3D -->
+    <canvas id="meuCanvas"></canvas>
+    <div class="card legenda-card montserrat-semibold">
+        <div class="card-header text-center">
+            Legenda
+        </div>
+
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <strong>1</strong> — Rodar disco
+                </li>
+                <li class="list-group-item">
+                    <strong>2</strong> — Fechar tampa
+                </li>
+                <li class="list-group-item">
+                    <strong>3</strong> — Posicionar braço
+                </li>
+                <li class="list-group-item">
+                    <strong>4</strong> — Abrir tampa
+                </li>
+                <li class="list-group-item">
+                    <strong>5</strong> — Retirar braço
+                </li>
+                <li class="list-group-item">
+                    <strong>6</strong> — Parar disco
+                </li>
+                <!--<div id="player">-->
+                <div id="contadorMusica">00:00 / 00:00</div>
+            </ul>
+        </div>
+    </div>
+
+
+    <!-- Interface flutuante -->
+    <div class="interface-handler montserrat-semibold">
+
+        <!-- Animation Buttons -->
+        <button type="button" class="btn-animation me-2" id="btn-anim-1">1</button>
+        <button type="button" class="btn-animation me-2" id="btn-anim-2">2</button>
+        <button type="button" class="btn-animation me-2" id="btn-anim-3">3</button>
+        <button type="button" class="btn-animation me-2" id="btn-anim-4">4</button>
+        <button type="button" class="btn-animation me-2" id="btn-anim-5">5</button>
+        <button type="button" class="btn-animation me-2" id="btn-anim-6">6</button>
+        <button type="button" class="btn-music me-2" id="btn-anim-7"><img src="files/reproducao-de-video.png" id="material-menu-img" alt="Pausa" width="30" height="30"></button>
+        <button type="button" class="btn-music me-2" id="btn-anim-8"><img src="files/pausa.png" id="material-menu-img" alt="Pausa" width="30" height="30"></button>
+        <button type="button" class="btn-music me-2" id="btn-anim-9"><img src="files/faixa-seguinte.png" id="material-menu-img" alt="Pausa" width="30" height="30"></button>
+
+        <audio id="musica1" src="musica1.mp3" loop></audio>
+        <audio id="musica2" src="musica2.mp3" loop></audio>
+        <audio id="musica3" src="musica3.mp3" loop></audio>
+
+        <!-- Functionality Buttons -->
+        <button type="button" class="default-btn me-2" id="material-menu-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            <img src="files/tres.png" id="material-menu-img" alt="Material Menu" width="20" height="20">
+        </button>
+        <button type="button" class="default-btn" id="fullscreen-btn">
+            <img src="files/tela-cheia.png" id="fullscreen-img" alt="Fullscreen" width="20" height="20">
+        </button>
+        <button type="button" class="default-btn" id="btn-close">
+             <img src="files/fechar.png" alt="Fechar" width="20" height="20"/>
+        </button>
+    </div>
+
+    
+    
+
+    <!-- Modal de Materiais -->
+    <div class="modal fade montserrat-semibold" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header" style="background-color: #151515;">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Menu de Materiais</h1>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close">                    </button>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <button type="button" class="btn-material d-flex align-items-center" id="btn-wood">
+                        <img class="ms-2" src="files/savana_linha_dual_syncro_guararapes.jpg" alt="Wood Material" width="80" height="80"/>
+                        <p class="flex-grow-1 text-center">Madeira</p>
+                    </button>
+                    <button type="button" class="btn-material d-flex align-items-center" id="btn-metal">
+                        <img class="ms-2" src="files/stylish-panoramic-background-silver-steel-metal-texture-vector.jpg" alt="Metal Material" width="80" height="80"/>
+                        <p class="flex-grow-1 text-center">Metal</p>
+                    </button>
+                    <button type="button" class="btn-material d-flex align-items-center" id="btn-cortica">
+                        <img class="ms-2" src="files/7008854-textura-de-fundo-abstrato-verde-aspero-plastico-foto.jpg" alt="Corkboard Material" width="80" height="80"/>
+                        <p class="flex-grow-1 text-center">Plastico</p>
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script async src="/node_modules/es-module-shims.js"></script>
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "/node_modules/three/build/three.module.js",
+            "three/addons/": "/node_modules/three/examples/jsm/"
+        }
+    }
+    </script>
+    <script type="module" defer src="./main.js"></script>
+</body>
+
+</html>

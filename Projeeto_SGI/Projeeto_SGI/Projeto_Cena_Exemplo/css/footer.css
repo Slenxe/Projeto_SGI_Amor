@@ -1,0 +1,97 @@
+ .footer-laredoute {
+      
+      color: hsl(0, 0%, 100%);
+      font-size: 14px;
+      background: #004448;
+    }
+
+    .footer-laredoute ul {
+      padding-left: 0;
+      margin: 0;
+    }
+
+    .footer-laredoute li {
+      list-style: none;
+      margin-bottom: 6px;
+    }
+
+    .footer-benefits {
+      background-color: #004448;
+    }
+
+    .footer-title {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .footer-laredoute a {
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      background: #004448;
+    }
+
+    .footer-laredoute a:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    .footer-links,
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .payment-icons span {
+      display: inline-block;
+      padding: 4px 8px;
+      margin: 0 6px 6px 0;
+      background: rgba(255,255,255,0.15);
+      border-radius: 3px;
+      font-size: 12px;
+    }
+
+    .social-icons a {
+      font-size: 18px;
+      margin: 0 8px;
+      color: #ffffff;
+    }
+
+    .footer-legal {
+      background-color: #003a3d;
+    }
+
+    .footer-legal a {
+      font-size: 12px;
+      margin-right: 6px;
+    }
+
+      .footer-collapsible {
+      overflow: hidden;
+      max-height: 70px;
+      transition: max-height 0.6s ease;
+    }
+
+    .footer-collapsible.open {
+      max-height: 1000px;
+    }
+
+    .footer-toggle {
+      cursor: pointer;
+      text-align: center;
+      padding: 14px 0;
+      color: rgba(255,255,255,0.8);
+      font-weight: 600;
+      border-top: 1px solid rgba(255,255,255,0.25);
+      border-bottom: 1px solid rgba(255,255,255,0.25);
+    }
+
+    .footer-toggle i {
+      display: block;
+      font-size: 18px;
+      transition: transform 0.4s ease;
+    }
+
+    .footer-toggle.open i {
+      transform: rotate(180deg);
+    }
