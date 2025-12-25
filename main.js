@@ -62,7 +62,7 @@ const clock = new THREE.Clock()
 
 // Estado inicial do sistema
 const estado = {
-    tampaAberta: true,      // O modelo começa aberto
+    tampaAberta: true,
     discoRodando: false,
     bracoPosicionado: false,
     musicaAImitar: false
@@ -94,7 +94,6 @@ loader.load('./models/RecordPlayer.gltf',
             }
         })
 
-        // Atualiza os botões assim que o modelo carrega
         atualizarBotoes();
     },
     undefined,
@@ -258,49 +257,56 @@ function tocarAnimacaoPromessa(nome, timeScale = 1) {
 // -- Ações Lógicas --
 
 function acaoRodarDisco() {
-    // 1. Verificar tampa
-    if (!estado.tampaAberta) {
-        console.log("Ação bloqueada: Tampa fechada.");
-        return;
-    }
-    // 2. NOVA VERIFICAÇÃO: Braço tem de estar posicionado
-    if (!estado.bracoPosicionado) {
-        alert("O braço tem de estar posicionado para rodares o disco!");
-        return;
-    }
-
+    // Nota: Removido bloqueio de tampa fechada aqui porque o Play agora gere isso
     tocarAnimacao("RodarDisco", 1, THREE.LoopRepeat);
     estado.discoRodando = true;
     atualizarBotoes();
 }
 
-function acaoPararDisco() {
+async function acaoPararDisco() {
+    pararSomImediato();
+    desligarLED();
+    estado.musicaAImitar = false;
+
+    if (estado.bracoPosicionado) {
+        await acaoRetirarBraco();
+    }
+
     pararAnimacao("RodarDisco");
     estado.discoRodando = false;
     atualizarBotoes();
 }
 
 async function acaoFecharTampa() {
+    pararSomImediato();
+    desligarLED();
+    estado.musicaAImitar = false;
+
     if (estado.bracoPosicionado) {
         await acaoRetirarBraco();
     }
     if (estado.discoRodando) {
-        acaoPararDisco();
+        pararAnimacao("RodarDisco");
+        estado.discoRodando = false;
     }
-    pararMusicaAtual();
-    tocarAnimacao("FecharTampaGiraDiscos", 1); // Fechar
-    estado.tampaAberta = false;
+
+    if(estado.tampaAberta) {
+        tocarAnimacao("FecharTampaGiraDiscos", 1);
+        estado.tampaAberta = false;
+    }
     atualizarBotoes();
 }
 
 function acaoAbrirTampa() {
-    tocarAnimacao("FecharTampaGiraDiscos", -1); // Abrir
-    estado.tampaAberta = true;
-    atualizarBotoes();
+    if (!estado.tampaAberta) {
+        tocarAnimacao("FecharTampaGiraDiscos", -1);
+        estado.tampaAberta = true;
+        atualizarBotoes();
+    }
 }
 
 async function acaoColocarBraco() {
-    if (!estado.tampaAberta) return;
+    if (!estado.tampaAberta) return; // Segurança extra
     await tocarAnimacaoPromessa("PickupAction", 1);
     estado.bracoPosicionado = true;
     atualizarBotoes();
@@ -312,95 +318,93 @@ async function acaoRetirarBraco() {
     atualizarBotoes();
 }
 
+// =========================================================================
+// ALTERADO: LÓGICA DE PLAY AUTOMÁTICO (Start-to-Finish)
 async function acaoPlayMusica() {
+
+    // 1. Se a tampa estiver fechada, ABRE e ESPERA
     if (!estado.tampaAberta) {
-        alert("Abre a tampa primeiro!");
-        return;
+        estado.tampaAberta = true; // Atualiza estado já para desbloquear botões visualmente
+        atualizarBotoes();
+        // Espera a animação da tampa abrir completar (timeScale -1 = abrir)
+        await tocarAnimacaoPromessa("FecharTampaGiraDiscos", -1);
     }
 
-    // NOVA ORDEM AUTOMÁTICA
-    // Como agora só podemos rodar se o braço estiver em baixo,
-    // temos de colocar o braço PRIMEIRO.
+    // 2. Se o disco não estiver a rodar, começa a rodar
+    if (!estado.discoRodando) {
+        acaoRodarDisco();
+        // Pequena pausa opcional para realismo (o disco ganhar velocidade)
+        await new Promise(r => setTimeout(r, 500));
+    }
 
+    // 3. Se o braço não estiver no sitio, coloca-o
     if (!estado.bracoPosicionado) {
         await acaoColocarBraco();
     }
 
-    // Agora que o braço está posto, já podemos rodar
-    if (!estado.discoRodando) {
-        acaoRodarDisco();
-    }
+    // 4. Toca a música
+    musicas[indice].volume = 1;
+    musicas[indice].play().catch(e => console.log("Erro ao tocar: ", e));
 
-    musicas[indice].play();
     estado.musicaAImitar = true;
     ligarLED();
     atualizarBotoes();
 }
+// =========================================================================
 
 async function acaoPausaMusica() {
-    pararMusicaAtual();
+    pararSomImediato();
     desligarLED();
     estado.musicaAImitar = false;
 
     if (estado.bracoPosicionado) await acaoRetirarBraco();
-    if (estado.discoRodando) acaoPararDisco();
+
+    pararAnimacao("RodarDisco");
+    estado.discoRodando = false;
 
     atualizarBotoes();
 }
 
 //===============================================================================
-// EVENT LISTENERS DOS BOTÕES (ORDEM 1 a 6)
-
-// 1 - Abrir Tampa
+// EVENT LISTENERS DOS BOTÕES
 const btnAbrir = document.getElementById("btn-anim-1");
-// 2 - Fechar Tampa
 const btnFechar = document.getElementById("btn-anim-2");
-// 3 - Posicionar Braço
 const btnColocar = document.getElementById("btn-anim-3");
-// 4 - Retirar Braço
 const btnRetirar = document.getElementById("btn-anim-4");
-// 5 - Rodar Disco
 const btnRodar = document.getElementById("btn-anim-5");
-// 6 - Parar Disco
 const btnParar = document.getElementById("btn-anim-6");
-
 const btnPlay = document.getElementById("btn-anim-7");
 const btnPause = document.getElementById("btn-anim-8");
 const btnNext = document.getElementById("btn-anim-9");
+const btnDesligar = document.getElementById("btn-anim-10");
 
-// Mapeamento correto das funções
 btnAbrir.onclick = acaoAbrirTampa;
 btnFechar.onclick = acaoFecharTampa;
 btnColocar.onclick = acaoColocarBraco;
 btnRetirar.onclick = acaoRetirarBraco;
 btnRodar.onclick = acaoRodarDisco;
 btnParar.onclick = acaoPararDisco;
-
 btnPlay.onclick = acaoPlayMusica;
 btnPause.onclick = acaoPausaMusica;
 btnNext.onclick = skipMusica;
+btnDesligar.onclick = acaoFecharTampa;
 
 function atualizarBotoes() {
-    // Tampa
     btnAbrir.disabled = estado.tampaAberta;
     btnFechar.disabled = !estado.tampaAberta;
+    // O botão Play agora está sempre ativo (a menos que já esteja a tocar)
+    // porque ele consegue iniciar o processo todo sozinho
+    btnPlay.disabled = estado.musicaAImitar;
 
-    // Braço
     btnColocar.disabled = estado.bracoPosicionado || !estado.tampaAberta;
     btnRetirar.disabled = !estado.bracoPosicionado;
-
-    // Disco
-    // NOVA REGRA VISUAL: O botão fica bloqueado se o braço NÃO estiver posicionado
-    btnRodar.disabled = estado.discoRodando || !estado.tampaAberta || !estado.bracoPosicionado;
-
+    btnRodar.disabled = estado.discoRodando || !estado.tampaAberta;
     btnParar.disabled = !estado.discoRodando;
-
-    // Música
-    btnPlay.disabled = estado.musicaAImitar;
     btnPause.disabled = !estado.musicaAImitar;
-}
 
-// Chamamos isto no fim para garantir que o estado inicial é aplicado
+    // LÓGICA DO SKIP (NEXT)
+    btnNext.disabled = !(estado.musicaAImitar && estado.bracoPosicionado && estado.discoRodando);
+}
 atualizarBotoes();
 
 //===============================================================================
@@ -413,21 +417,23 @@ const musicas = [
 
 let indice = 0;
 
-function pararMusicaAtual() {
+function pararSomImediato() {
     musicas[indice].pause();
     musicas[indice].currentTime = 0;
+    musicas[indice].volume = 1;
 }
 
 function skipMusica(){
-    pararMusicaAtual();
+    pararSomImediato();
     indice = (indice + 1) % musicas.length;
+
     if (estado.musicaAImitar) {
-        musicas[indice].play();
+        musicas[indice].volume = 1;
+        musicas[indice].play().catch(e => console.log(e));
     }
     proximaCor();
 }
 
-// Contador
 function formatarTempo(segundos) {
     const min = Math.floor(segundos / 60).toString().padStart(2, '0');
     const seg = Math.floor(segundos % 60).toString().padStart(2, '0');
