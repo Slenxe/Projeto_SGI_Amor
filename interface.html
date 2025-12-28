@@ -14,9 +14,14 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/interface.css">
+    <link rel="stylesheet" href="css/tutorial.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+
+    <link rel="stylesheet" href="https://unpkg.com/intro.js/minified/introjs.min.css">
+    <script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
+
 </head>
 
 <body>
@@ -30,28 +35,69 @@
         <div class="card-body">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <strong>1</strong> — Abrir tampa
+                    <strong>1</strong> — Rodar disco
                 </li>
                 <li class="list-group-item">
-                    <strong>2</strong> — Fechar tampa
+                    <strong>2</strong> — Parar disco
                 </li>
                 <li class="list-group-item">
-                    <strong>3</strong> — Posicionar braço
+                    <strong>3</strong> — Abrir tampa
                 </li>
                 <li class="list-group-item">
-                    <strong>4</strong> — Retirar braço
+                    <strong>4</strong> — Fechar tampa
                 </li>
                 <li class="list-group-item">
-                    <strong>5</strong> — Rodar disco
+                    <strong>5</strong> — Posicionar braço
                 </li>
                 <li class="list-group-item">
-                    <strong>6</strong> — Parar disco
+                    <strong>6</strong> — Retirar braço
                 </li>
-                <div id="contadorMusica">00:00 / 00:00</div>
+                <li class="list-group-item">
+                    <strong>p</strong> — Ligar gira discos
+                </li>
+                <li class="list-group-item">
+                    <strong>s</strong> — Pausar música
+                </li>
+                <li class="list-group-item">
+                    <strong>n</strong> — Skip música
+                </li>
+                <li class="list-group-item">
+                    <strong>↑</strong> — Aumentar volume
+                </li>
+                <li class="list-group-item">
+                    <strong>↓</strong> — Diminuir volume
+                </li>
+                <li class="list-group-item">
+                    <strong>Enter</strong> — Desligar Gira-discos
+                </li>
+                <li class="list-group-item">
+                    <strong>f</strong> — Fullscreen
+                </li>
+                <li class="list-group-item">
+                    <strong>q</strong> — Fechar Página
+                </li>
             </ul>
         </div>
     </div>
 
+    <div class="menu-musica">
+        <button id="btn-play"><img src="files/reproducao-de-video.png" alt="Play" width="30" height="30"></button>
+        <button id="btn-pause"><img src="files/pausa.png" alt="Pause" width="30" height="30"></button>
+        <button id="btn-skip"><img src="files/faixa-seguinte.png" alt="Skip" width="30" height="30"></button>
+        <button id="btn-turn-off"><img src="files/desligar.png" alt="Desligar" width="30" height="30"></button>
+
+        <button id="btn-volume-up"><i class="bi bi-volume-up-fill"></i></button>
+        <button id="btn-volume-down"><i class="bi bi-volume-down-fill"></i></button>
+
+        <div class="barra-progresso-spotify">
+            <div class="tempo-inicio" id="tempo-inicio">00:00</div>
+            <div class="barra-container">
+                <div id="progresso"></div>
+                <div id="indicador"></div>
+            </div>
+            <div class="tempo-fim" id="tempo-fim">00:00</div>
+        </div>
+    </div>
 
     <!-- Interface flutuante -->
     <div class="interface-handler montserrat-semibold">
@@ -63,73 +109,130 @@
         <button type="button" class="btn-animation me-2" id="btn-anim-4">4</button>
         <button type="button" class="btn-animation me-2" id="btn-anim-5">5</button>
         <button type="button" class="btn-animation me-2" id="btn-anim-6">6</button>
-        <button type="button" class="btn-music me-2" id="btn-anim-7"><img src="files/reproducao-de-video.png" id="material-menu-img" alt="Pausa" width="30" height="30"></button>
-        <button type="button" class="btn-music me-2" id="btn-anim-8"><img src="files/pausa.png" id="material-menu-img" alt="Pausa" width="30" height="30"></button>
-        <button type="button" class="btn-music me-2" id="btn-anim-9"><img src="files/faixa-seguinte.png" id="material-menu-img" alt="Pausa" width="30" height="30"></button>
-        <button type="button" class="btn-music me-2" id="btn-anim-10"><img src="files/botao-ligar-desligar.png" id="material-menu-img" alt="Desligar" width="30" height="30"></button>
 
 
-        <audio id="musica1" src="musica1.mp3" loop></audio>
-        <audio id="musica2" src="musica2.mp3" loop></audio>
-        <audio id="musica3" src="musica3.mp3" loop></audio>
+        <audio id="musica1" src="music/musica1.mp3"></audio>
+        <audio id="musica2" src="music/musica2.mp3"></audio>
+        <audio id="musica3" src="music/musica3.mp3"></audio>
+        <audio id="soundEffect" src="music/sound_effect.mp3"></audio>
+        <audio id="soundEffectBotao" src="music/sound_botao.mp3"></audio>
 
         <!-- Functionality Buttons -->
-        <button type="button" class="default-btn me-2" id="material-menu-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-            <img src="files/tres.png" id="material-menu-img" alt="Material Menu" width="20" height="20">
+        <button type="button" class="default-btn me-2" id="material-menu-btn" data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop">
+            <img src="files/padrao.png" id="material-menu-img" alt="Material Menu" width="20" height="20">
+        </button>
+        <button type="button" class="default-btn me-2" id="material-menu-tampa-btn" data-bs-toggle="modal" data-bs-target="#tampaModal">
+            <img src="files/textura_icon.png" id="material-menu-img2" alt="Texturas Tampa" width="20" height="20">
         </button>
         <button type="button" class="default-btn" id="fullscreen-btn">
             <img src="files/tela-cheia.png" id="fullscreen-img" alt="Fullscreen" width="20" height="20">
         </button>
         <button type="button" class="default-btn" id="btn-close">
-             <img src="files/fechar.png" alt="Fechar" width="20" height="20"/>
+            <img src="files/fechar.png" alt="Fechar" width="20" height="20" />
         </button>
     </div>
 
-    
-    
 
-    <!-- Modal de Materiais -->
-    <div class="modal fade montserrat-semibold" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <!-- Modal Header -->
-                <div class="modal-header" style="background-color: #151515;">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Menu de Materiais</h1>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close">                    </button>
+    <div id="menu">
+        <!-- Modal de Materiais -->
+        <div class="modal fade montserrat-semibold" id="staticBackdrop" data-bs-backdrop="static"
+            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header" style="background-color: #151515;">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Menu de Materiais</h1>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                            aria-label="Close">
+                        </button>
+                    </div>
+                    <!-- Modal Body -->
+                    <div class="modal-body">
+                        <button type="button" class="btn-material d-flex align-items-center" id="btn-wood">
+                            <img class="ms-2" src="files/texturas_base/texturaBase2.jpg" alt="Wood Material" width="80" height="80" />
+                            <p class="flex-grow-1 text-center">Madeira</p>
+                        </button>
+                        <button type="button" class="btn-material d-flex align-items-center" id="btn-metal">
+                            <img class="ms-2" src="files/texturas_base/texturaBase3.jpg" alt="Metal Material" width="80"
+                                height="80" />
+                            <p class="flex-grow-1 text-center">Metal</p>
+                        </button>
+                        <button type="button" class="btn-material d-flex align-items-center" id="btn-cortica">
+                            <img class="ms-2" src="files/texturas_base/texturaBase1.jpg" alt="Corkboard Material" width="80"
+                                height="80" />
+                            <p class="flex-grow-1 text-center">Plastico</p>
+                        </button>
+                    </div>
                 </div>
-                <!-- Modal Body -->
-                <div class="modal-body">
-                    <button type="button" class="btn-material d-flex align-items-center" id="btn-wood">
-                        <img class="ms-2" src="files/savana_linha_dual_syncro_guararapes.jpg" alt="Wood Material" width="80" height="80"/>
-                        <p class="flex-grow-1 text-center">Madeira</p>
-                    </button>
-                    <button type="button" class="btn-material d-flex align-items-center" id="btn-metal">
-                        <img class="ms-2" src="files/stylish-panoramic-background-silver-steel-metal-texture-vector.jpg" alt="Metal Material" width="80" height="80"/>
-                        <p class="flex-grow-1 text-center">Metal</p>
-                    </button>
-                    <button type="button" class="btn-material d-flex align-items-center" id="btn-cortica">
-                        <img class="ms-2" src="files/7008854-textura-de-fundo-abstrato-verde-aspero-plastico-foto.jpg" alt="Corkboard Material" width="80" height="80"/>
-                        <p class="flex-grow-1 text-center">Plastico</p>
-                    </button>
+            </div>
+        </div>
 
+        <div class="modal fade montserrat-semibold" id="tampaModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+
+                    <div class="modal-header" style="background-color:#151515;">
+                        <h5 class="modal-title">Texturas da Tampa</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body d-grid gap-2">
+
+                        <button type="button" class="btn-material d-flex align-items-center texture-tampa"
+                            id="btn-colorido1">
+                            <img src="files/texturas_tampa/textura1.jpg" width="80" height="80">
+                            <p class="flex-grow-1 text-center">Colorido</p>
+                        </button>
+
+                        <button type="button" class="btn-material d-flex align-items-center texture-tampa"
+                            id="btn-colorido2">
+                            <img src="files/texturas_tampa/textura2.jpg" width="80" height="80">
+                            <p class="flex-grow-1 text-center">Colorido</p>
+                        </button>
+
+                        <button type="button" class="btn-material d-flex align-items-center texture-tampa"
+                            id="btn-branco">
+                            <img src="files/texturas_tampa/textura3.avif" width="80" height="80">
+                            <p class="flex-grow-1 text-center">Branco</p>
+                        </button>
+
+                        <button type="button" class="btn-material d-flex align-items-center texture-tampa"
+                            id="btn-rosa">
+                            <img src="files/texturas_tampa/textura4.jpg" width="80" height="80">
+                            <p class="flex-grow-1 text-center">Rosa</p>
+                        </button>
+
+                        <button type="button" class="btn-material d-flex align-items-center texture-tampa"
+                            id="btn-azul">
+                            <img src="files/texturas_tampa/textura5.jpg" width="80" height="80">
+                            <p class="flex-grow-1 text-center">Azul</p>
+                        </button>
+
+                        <button type="button" class="btn-material d-flex align-items-center texture-tampa"
+                            id="btn-castanho">
+                            <img src="files/texturas_tampa/textura6.avif" width="80" height="80">
+                            <p class="flex-grow-1 text-center">Castanho</p>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
     <!-- Scripts -->
-    <script async src="https://unpkg.com/es-module-shims@1.8.0/dist/es-module-shims.js"></script>
-
+    <script async src="./node_modules/es-module-shims.js"></script>
     <script type="importmap">
-        {
-            "imports": {
-                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
-            }
+    {
+        "imports": {
+            "three": "./node_modules/three/build/three.module.js",
+            "three/addons/": "./node_modules/three/examples/jsm/"
         }
+    }
     </script>
+    <script type="module" defer src="scripts/main.js"></script>
+    <script type="module" defer src="scripts/tutorial.js"></script>
 
-    <script type="module" defer src="./main.js"></script>
+
 </body>
-</body>
+
 </html>

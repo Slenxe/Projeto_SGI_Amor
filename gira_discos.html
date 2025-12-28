@@ -12,8 +12,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-
-
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/navbar.css">
     <link rel="stylesheet" href="css/style.css">
@@ -21,29 +19,20 @@
     <link rel="stylesheet" href="css/product.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/category.css">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
-
 </head>
 
 <body>
+    <!-- NAVBAR -->
     <div class="navbar">
-
-        <!-- Logo -->
         <a href="index.html" class="navbar-logo">
             <img src="files/la-redoute-logo.png" width="500px" alt="Site Logo">
         </a>
 
-        <!-- Menu Button -->
         <a href="error.html" class="navbar-menu-button no-underline">
             <img src="files/menu.svg" alt="Menu Icon" class="navbar-menu-icon-img">
             <p class="navbar-menu-text">MENU</p>
         </a>
 
-
-
-        <!-- Search Bar -->
         <div class="navbar-search-bar">
             <div class="navbar-search-icon">
                 <img src="files/lupa.png" alt="Search Icon" class="navbar-search-icon-img">
@@ -51,21 +40,18 @@
             <input type="text" placeholder="O que procura?" class="navbar-search-text">
         </div>
 
-        <!-- Login Button -->
         <a href="error.html" class="navbar-login-element">
             <button class="navbar-svg-button">
                 <img src="files/login.svg" alt="Login Icon" class="navbar-login-icon-img">
             </button>
         </a>
 
-        <!-- Like Button -->
         <a href="error.html" class="navbar-heart-element">
             <button class="navbar-svg-button">
                 <img src="files/coracao.png" alt="Coracao Icon" class="navbar-heart-icon-img">
             </button>
         </a>
 
-        <!-- Cart Button -->
         <a href="error.html" class="navbar-cart-element">
             <button class="navbar-svg-button">
                 <img src="files/cart.svg" alt="Cart Icon" class="navbar-cart-icon-img">
@@ -73,10 +59,12 @@
         </a>
     </div>
 
+    <!-- MAIN -->
     <main class="page-container">
         <div class="product-details">
+            <!-- Imagem do Produto -->
             <div class="product-left-area">
-                <img src="files/product3.png" alt="Gira-discos" class="object-image">
+                <img src="files/products/product3.png" alt="Gira-discos" class="object-image" id="productImage">
                 <a href="interface.html">
                     <button class="navigate-3d-button">
                         <img src="files/3d.svg" alt="Navigate in 3D">
@@ -84,7 +72,7 @@
                 </a>
             </div>
 
-
+            <!-- Detalhes do Produto -->
             <div class="product-right-area">
                 <h3 class="page-category">La Redoute / High-Tech / Som / Audio,hifi / Gira-discos</h3>
                 <br>
@@ -92,78 +80,47 @@
                 <h1 class="product-name">Colunas incorporados nos pés (2x2W).</h1>
                 <h1 class="product-price">79.99€</h1>
 
+                <!-- Dropdown de materiais -->
                 <div class="container" style="max-width: 400px;">
-
-                    <div class="dropdown">
-                        <button
-                            class="btn btn-outline-secondary dropdown-toggle w-100 text-start d-flex align-items-center gap-2"
-                            type="button" id="materialDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                            <span id="selectedMaterial" class="text-muted">Selecionar um material</span>
-                        </button>
-                        <ul class="dropdown-menu w-100" aria-labelledby="materialDropdown">
-
-                            <!-- Placeholder desativado -->
-                            <li>
-                                <button class="dropdown-item disabled">
-                                    Selecionar um material
-                                </button>
-                            </li>
-
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-
-                            <li>
-                                <button class="dropdown-item d-flex align-items-center" data-material="Madeira">
-                                    🪵 Madeira
-                                </button>
-                            </li>
-
-                            <li>
-                                <button class="dropdown-item d-flex align-items-center" data-material="Metal">
-                                    🔩 Metal
-                                </button>
-                            </li>
-
-                            <li>
-                                <button class="dropdown-item d-flex align-items-center" data-material="Ferro">
-                                    ⚙️ Ferro
-                                </button>
-                            </li>
-
-                            <li>
-                                <button class="dropdown-item d-flex align-items-center" data-material="Alumínio">
-                                    🧲 Alumínio
-                                </button>
-                            </li>
-                        </ul>
-
-                        <!-- Input escondido (útil para formulários) -->
-                        <input type="hidden" id="colorInput" name="color">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="dropdown flex-grow-1">
+                            <button
+                                class="btn btn-outline-secondary dropdown-toggle w-100 text-start"
+                                type="button" id="materialDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span id="selectedMaterial" class="text-muted">Selecionar um material</span>
+                            </button>
+                            <ul class="dropdown-menu w-100" aria-labelledby="materialDropdown">
+                                <li><button class="dropdown-item disabled">Selecionar um material</button></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><button class="dropdown-item d-flex align-items-center" data-material="Madeira">🪵 Madeira</button></li>
+                                <li><button class="dropdown-item d-flex align-items-center" data-material="Metal">🔩 Metal</button></li>
+                                <li><button class="dropdown-item d-flex align-items-center" data-material="Plastico">⚙️ Plástico</button></li>
+                            </ul>
+                        </div>
                     </div>
-
                 </div>
+
                 <br>
 
-
-                <div class="add-cart">
-                    <a href="error.html" class="no-underline">
-                        <button class="add-cart-button">
-
-                            <span class="add-to-cart-text">Juntar ao carrinho</span>
-                        </button>
-
-                    </a>
-                    <br>
-                    <div class="heart" style="margin-left: 10px;">
-                        <img src="files/like.png" class="heart">
+                <!-- Botão adicionar ao carrinho -->
+                <div class="container" style="max-width: 400px;">
+                    <div class="d-flex gap-2">
+                        <a href="error.html" class="no-underline flex-grow-1">
+                            <button class="add-cart-button w-100">
+                                <span class="add-to-cart-text">JUNTAR AO CARRINHO</span>
+                            </button>
+                        </a>
+                        <div class="heart">
+                            <img src="files/like.png" class="heart">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
-    <footer class="footer-laredoute">
 
+    <!-- FOOTER -->
+    <footer class="footer-laredoute">
         <div class="footer-benefits py-4">
             <div class="container">
                 <div class="row text-center">
@@ -231,14 +188,15 @@
                 La Redoute
             </div>
         </div>
-
     </footer>
+
+    <!-- SCRIPT -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Footer toggle
             const toggle = document.getElementById('footerToggle');
             const collapsible = document.getElementById('footerCollapsible');
             const text = toggle.querySelector('.footer-toggle-text');
-
             if (toggle && collapsible) {
                 toggle.addEventListener('click', () => {
                     const isOpen = collapsible.classList.toggle('open');
@@ -247,21 +205,37 @@
                 });
             }
 
-            /* === DROPDOWN MATERIAL === */
+            // Dropdown de materiais e troca de imagem
+            const productImage = document.getElementById('productImage');
+            const selected = document.getElementById('selectedMaterial');
+
             document.querySelectorAll('.dropdown-item').forEach(item => {
                 item.addEventListener('click', function () {
                     const material = this.dataset.material;
+                    if (!material) return;
 
-                    if (!material) return; // ignora item disabled
+                    // Atualiza texto do dropdown
+                    selected.textContent = material;
+                    selected.classList.remove('text-muted');
 
-                    document.getElementById('selectedMaterial').textContent = material;
-                    document.getElementById('selectedMaterial').classList.remove('text-muted');
-                    document.getElementById('materialInput').value = material;
+                    // Troca imagem do produto
+                    switch (material) {
+                        case "Madeira":
+                            productImage.src = "files/products/product3.png";
+                            break;
+                        case "Metal":
+                            productImage.src = "files/products/metal.png";
+                            break;
+                        case "Plastico":
+                            productImage.src = "files/products/plastico.png";
+                            break;
+                        default:
+                            productImage.src = "files/products/product3.png";
+                    }
                 });
             });
         });
     </script>
-
 </body>
 
 </html>
